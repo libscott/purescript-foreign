@@ -18,16 +18,16 @@ can be used to construct instances for new data structures.
 
 ##### Instances
 ``` purescript
-instance foreignIsForeign :: IsForeign Foreign
-instance stringIsForeign :: IsForeign String
-instance charIsForeign :: IsForeign Char
-instance booleanIsForeign :: IsForeign Boolean
-instance numberIsForeign :: IsForeign Number
-instance intIsForeign :: IsForeign Int
-instance arrayIsForeign :: (IsForeign a) => IsForeign (Array a)
-instance nullIsForeign :: (IsForeign a) => IsForeign (Null a)
-instance undefinedIsForeign :: (IsForeign a) => IsForeign (Undefined a)
-instance nullOrUndefinedIsForeign :: (IsForeign a) => IsForeign (NullOrUndefined a)
+IsForeign Foreign
+IsForeign String
+IsForeign Char
+IsForeign Boolean
+IsForeign Number
+IsForeign Int
+(IsForeign a) => IsForeign (Array a)
+(IsForeign a) => IsForeign (Null a)
+(IsForeign a) => IsForeign (Undefined a)
+(IsForeign a) => IsForeign (NullOrUndefined a)
 ```
 
 #### `readJSON`

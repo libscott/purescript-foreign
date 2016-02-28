@@ -24,18 +24,18 @@ Suitable applications of `Foreign` are
 
 ``` purescript
 data ForeignError
-  = TypeMismatch String String
+  = ForeignError String
+  | TypeMismatch String String
   | ErrorAtIndex Int ForeignError
   | ErrorAtProperty String ForeignError
-  | JSONError String
 ```
 
 A type for runtime type errors
 
 ##### Instances
 ``` purescript
-instance showForeignError :: Show ForeignError
-instance eqForeignError :: Eq ForeignError
+Show ForeignError
+Eq ForeignError
 ```
 
 #### `F`

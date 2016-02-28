@@ -19,8 +19,8 @@ The canonical instances are for `String`s and `Number`s.
 
 ##### Instances
 ``` purescript
-instance indexString :: Index String
-instance indexInt :: Index Int
+Index String
+Index Int
 ```
 
 #### `(!)`
