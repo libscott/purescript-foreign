@@ -45,22 +45,22 @@ foreign import data Foreign :: *
 
 -- | A type for runtime type errors
 data ForeignError
-  = TypeMismatch String String
+  = ForeignError String
+  | TypeMismatch String String
   | ErrorAtIndex Int ForeignError
   | ErrorAtProperty String ForeignError
-  | JSONError String
 
 instance showForeignError :: Show ForeignError where
+  show (ForeignError s) = s
   show (TypeMismatch exp act) = "Type mismatch: expected " ++ exp ++ ", found " ++ act
   show (ErrorAtIndex i e) = "Error at array index " ++ show i ++ ": " ++ show e
   show (ErrorAtProperty prop e) = "Error at property " ++ show prop ++ ": " ++ show e
-  show (JSONError s) = "JSON error: " ++ s
 
 instance eqForeignError :: Eq ForeignError where
+  eq (ForeignError s) (ForeignError s') = s == s'
   eq (TypeMismatch a b) (TypeMismatch a' b') = a == a' && b == b'
   eq (ErrorAtIndex i e) (ErrorAtIndex i' e') = i == i' && e == e'
   eq (ErrorAtProperty p e) (ErrorAtProperty p' e') = p == p' && e == e'
-  eq (JSONError s) (JSONError s') = s == s'
   eq _ _ = false
 
 -- | An error monad, used in this library to encode possible failure when
@@ -71,7 +71,10 @@ foreign import parseJSONImpl :: forall r. Fn3 (String -> r) (Foreign -> r) Strin
 
 -- | Attempt to parse a JSON string, returning the result as foreign data.
 parseJSON :: String -> F Foreign
-parseJSON json = runFn3 parseJSONImpl (Left <<< JSONError) Right json
+parseJSON json = runFn3 parseJSONImpl (Left <<< jsonError) Right json
+  where
+  jsonError :: String -> ForeignError
+  jsonError s = ForeignError ("Error parsing JSON: " ++ s)
 
 -- | Coerce any value to the a `Foreign` value.
 foreign import toForeign :: forall a. a -> Foreign
